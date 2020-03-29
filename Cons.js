@@ -1,21 +1,18 @@
 class Cons {
-    constructor(bodyA, pointB) {
+    constructor(bodyB, pointA) {
         var options = {
-            'bodyA': bodyA,
-            'pointB': pointB,
-            'restitution': 0.5,
-            'length': 15
+            pointA: pointA,
+            bodyB: bodyB,
+            restitution: 10,
+            stiffness: 0.5,
+            length: 0.01
         }
-        this.sling = Constraint.create(options);
-        World.add(world, this.sling);
+        this.cons = Constraint.create(options);
+        World.add(world, this.cons);
     }
 
-    display() {
-        line(this.sling.bodyA.position.x, this.sling.bodyA.position.y, this.sling.pointB.x, this.sling.pointB.y);
-        push();
-        pop();
-    }
     fly() {
-        this.sling.bodyA = null;
+        //this.cons.bodyB = newBody;
+        this.cons.bodyB = null;
     }
 }

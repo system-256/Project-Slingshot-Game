@@ -1,45 +1,57 @@
-const { Engine, Bodies, Constraint, World, MouseConstraint } = Matter;
+const { Engine, Bodies, Constraint, World, MouseConstraint, Mouse, Render } = Matter;
 var engine, world;
 var ball, sling;
 var mouseConstraint;
+var ground;
+var boxes = [];
+var box1, box2, box3, box4;
+var gameState = "shoot";
+var canvas;
 
 function setup() {
-    createCanvas(800, 400);
+    canvas = createCanvas(800, 400);
     engine = Engine.create();
     world = engine.world;
 
+    renderer = Render.create({
+        element: canvas.elt,
+        engine: engine,
+        options: {
+            wireFrames: true
+        }
+    })
+
+    box1 = new Box(650, 50);
+    box2 = new Box(700, 50);
+    box3 = new Box(650, 110);
+    box4 = new Box(700, 110);
+    boxes.push(box1, box2, box3, box4);
+    ground = new Ground();
     ball = new Ball(105, 256);
     sling = new Cons(ball.body, { x: 105, y: 256 });
+    console.log(canvas.elt);
 }
 
 function draw() {
     background(255, 255, 255);
-    //console.log(mouseX, mouseY);
+    console.log(sling.cons);
     Engine.update(engine);
+    Render.run(renderer)
+    for (var i = 0; i < 4; i++) {
+        boxes[i].display();
+    }
     ball.display();
+    ground.display();
+
 }
 
 function mouseDragged() {
-    Matter.Body.setPosition(ball.body, { x: mouseX, y: mouseY });
-    /*var mouse = Matter.Mouse.create(document.body);
-    var options = {
-        'body': ball.body,
-        'mouse': mouse
+    if (gameState == "shoot") {
+        Matter.Body.setPosition(ball.body, { x: mouseX, y: mouseY });
     }
-    var mcons = MouseConstraint.create(engine, options);
-    World.add(world, mcons);*/
-    /*var mouse = Matter.Mouse.create(document.body),
-        mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            body: ball.body,
-            constraint: {
-                stiffness: 0.2,
-                length: 10
-            }
-        });
-    World.add(world, mouseConstraint);*/
 }
 
 function mouseReleased() {
+    gameState = "recollect";
     sling.fly();
 }
