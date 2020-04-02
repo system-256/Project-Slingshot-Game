@@ -22,20 +22,19 @@ function setup() {
         }
     })
 
-    box1 = new Box(650, 50);
-    box2 = new Box(700, 50);
-    box3 = new Box(650, 110);
-    box4 = new Box(700, 110);
+    ball = new Ball(105, 256);
+    box1 = new Box(650, 295);
+    box2 = new Box(700, 295);
+    box3 = new Box(650, 345);
+    box4 = new Box(700, 345);
     boxes.push(box1, box2, box3, box4);
     ground = new Ground();
-    ball = new Ball(105, 256);
     sling = new Cons(ball.body, { x: 105, y: 256 });
     //console.log(canvas.elt);
 }
 
 function draw() {
     background(0)
-    console.log(sling.cons);
     Engine.update(engine);
     for (var i = 0; i < 4; i++) {
         boxes[i].display();
@@ -43,11 +42,15 @@ function draw() {
     ball.display();
     ground.display();
     if (gameState === "shoot") {
-        stroke("red")
+        stroke("red");
         line(ball.body.position.x, ball.body.position.y, 105, 256);
     }
-    rectMode(CENTER)
-    rect(105, 318, 25, 89)
+    rectMode(CENTER);
+    rect(105, 318, 25, 89);
+    console.log(box1.body.position.y);
+    console.log(box2.body.position.y);
+    console.log(box3.body.position.y);
+    console.log(box4.body.position.y);
 }
 
 function mouseDragged() {

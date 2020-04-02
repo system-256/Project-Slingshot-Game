@@ -1,7 +1,7 @@
 class Ball {
     constructor(x, y) {
         var options = {
-            'density': 0.2
+            'density': 1
         }
         this.body = Bodies.circle(x, y, 20, options);
         World.add(world, this.body);
